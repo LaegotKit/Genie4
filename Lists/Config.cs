@@ -350,6 +350,7 @@ namespace GenieClient.Genie
                 oStreamWriter.WriteLine("#config {maxrowbuffer} {" + iBufferLineSize + "}");
                 oStreamWriter.WriteLine("#config {spelltimer} {" + bShowSpellTimer + "}");
                 oStreamWriter.WriteLine("#config {autolog} {" + bAutoLog + "}");
+                oStreamWriter.WriteLine("#config {automapper} {" + bAutoMapper + "}");
                 oStreamWriter.WriteLine("#config {editor} {" + sEditor + "}");
                 oStreamWriter.WriteLine("#config {prompt} {" + sPrompt + "}");
                 oStreamWriter.WriteLine("#config {monstercountignorelist} {" + sIgnoreMonsterList + "}");
@@ -415,9 +416,9 @@ namespace GenieClient.Genie
                         {
                             SetSetting(oArgs[1].ToString(), oArgs[2].ToString(), false);
                         }
-                        catch (Exception ex)
+                        catch
                         {
-                            throw new Exception("Failed to load setting: " + strLine + System.Environment.NewLine + ex.Message + System.Environment.NewLine);
+                           //Settings! We got bad settings here! See? No one cares.
                         }
                     }
 
