@@ -41,6 +41,7 @@ namespace GenieClient
             this._NameListOnlyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this._ToolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this._CloseWindowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this._AlwaysOnTopToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this._PanelContents.SuspendLayout();
             this._ContextMenuStripOutput.SuspendLayout();
             this.SuspendLayout();
@@ -51,9 +52,9 @@ namespace GenieClient
             this._PanelContents.Controls.Add(this._RichTextBoxOutput);
             this._PanelContents.Dock = System.Windows.Forms.DockStyle.Fill;
             this._PanelContents.Location = new System.Drawing.Point(0, 0);
-            this._PanelContents.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
+            this._PanelContents.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this._PanelContents.Name = "_PanelContents";
-            this._PanelContents.Size = new System.Drawing.Size(500, 385);
+            this._PanelContents.Size = new System.Drawing.Size(350, 231);
             this._PanelContents.TabIndex = 2;
             this._PanelContents.Visible = false;
             this._PanelContents.MouseEnter += new System.EventHandler(this.PanelContents_MouseEnter);
@@ -71,7 +72,7 @@ namespace GenieClient
             this._RichTextBoxOutput.HideSelection = false;
             this._RichTextBoxOutput.IsMainWindow = false;
             this._RichTextBoxOutput.Location = new System.Drawing.Point(0, 0);
-            this._RichTextBoxOutput.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
+            this._RichTextBoxOutput.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this._RichTextBoxOutput.MaxBufferSize = 500000;
             this._RichTextBoxOutput.MonoFont = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this._RichTextBoxOutput.Name = "_RichTextBoxOutput";
@@ -79,7 +80,7 @@ namespace GenieClient
             this._RichTextBoxOutput.ReadOnly = true;
             this._RichTextBoxOutput.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
             this._RichTextBoxOutput.ShowSelectionMargin = true;
-            this._RichTextBoxOutput.Size = new System.Drawing.Size(500, 385);
+            this._RichTextBoxOutput.Size = new System.Drawing.Size(350, 231);
             this._RichTextBoxOutput.TabIndex = 7;
             this._RichTextBoxOutput.Text = "";
             this._RichTextBoxOutput.TimeStamp = false;
@@ -91,7 +92,6 @@ namespace GenieClient
             this._RichTextBoxOutput.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this._RichTextBoxOutput_KeyPress);
             this._RichTextBoxOutput.MouseUp += new System.Windows.Forms.MouseEventHandler(this._RichTextBoxOutput_MouseUp);
             this._RichTextBoxOutput.MouseDown += new System.Windows.Forms.MouseEventHandler(_RichTextBoxOutput_MouseDown);
-
             // 
             // _ContextMenuStripOutput
             // 
@@ -101,54 +101,62 @@ namespace GenieClient
             this._TimeStampToolStripMenuItem,
             this._NameListOnlyToolStripMenuItem,
             this._ToolStripSeparator1,
-            this._CloseWindowToolStripMenuItem});
+            this._CloseWindowToolStripMenuItem,
+            this._AlwaysOnTopToolStripMenuItem});
             this._ContextMenuStripOutput.Name = "ContextMenuStripOutput";
-            this._ContextMenuStripOutput.Size = new System.Drawing.Size(205, 138);
+            this._ContextMenuStripOutput.Size = new System.Drawing.Size(181, 142);
             // 
             // _ClearToolStripMenuItem
             // 
             this._ClearToolStripMenuItem.Name = "_ClearToolStripMenuItem";
-            this._ClearToolStripMenuItem.Size = new System.Drawing.Size(204, 32);
+            this._ClearToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this._ClearToolStripMenuItem.Text = "Clear";
             this._ClearToolStripMenuItem.Click += new System.EventHandler(this.ClearToolStripMenuItem_Click);
             // 
             // _TimeStampToolStripMenuItem
             // 
             this._TimeStampToolStripMenuItem.Name = "_TimeStampToolStripMenuItem";
-            this._TimeStampToolStripMenuItem.Size = new System.Drawing.Size(204, 32);
+            this._TimeStampToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this._TimeStampToolStripMenuItem.Text = "Time Stamp";
             this._TimeStampToolStripMenuItem.Click += new System.EventHandler(this.TimeStampToolStripMenuItem_Click);
             // 
             // _NameListOnlyToolStripMenuItem
             // 
             this._NameListOnlyToolStripMenuItem.Name = "_NameListOnlyToolStripMenuItem";
-            this._NameListOnlyToolStripMenuItem.Size = new System.Drawing.Size(204, 32);
+            this._NameListOnlyToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this._NameListOnlyToolStripMenuItem.Text = "Name List Only";
             this._NameListOnlyToolStripMenuItem.Click += new System.EventHandler(this.NameListOnlyToolStripMenuItem_Click);
             // 
             // _ToolStripSeparator1
             // 
             this._ToolStripSeparator1.Name = "_ToolStripSeparator1";
-            this._ToolStripSeparator1.Size = new System.Drawing.Size(201, 6);
+            this._ToolStripSeparator1.Size = new System.Drawing.Size(177, 6);
             // 
             // _CloseWindowToolStripMenuItem
             // 
             this._CloseWindowToolStripMenuItem.Name = "_CloseWindowToolStripMenuItem";
-            this._CloseWindowToolStripMenuItem.Size = new System.Drawing.Size(204, 32);
+            this._CloseWindowToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this._CloseWindowToolStripMenuItem.Text = "Close Window";
             this._CloseWindowToolStripMenuItem.Click += new System.EventHandler(this.CloseWindowToolStripMenuItem_Click);
             // 
+            // _AlwaysOnTopToolStripMenuItem
+            // 
+            this._AlwaysOnTopToolStripMenuItem.Name = "_AlwaysOnTopToolStripMenuItem";
+            this._AlwaysOnTopToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this._AlwaysOnTopToolStripMenuItem.Text = "Always On Top";
+            this._AlwaysOnTopToolStripMenuItem.Click += new System.EventHandler(this.AlwaysOnTopToolStripMenuItem_Click);
+            // 
             // FormSkin
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
-            this.ClientSize = new System.Drawing.Size(500, 385);
+            this.ClientSize = new System.Drawing.Size(350, 231);
             this.Controls.Add(this._PanelContents);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Margin = new System.Windows.Forms.Padding(5, 6, 5, 6);
-            this.MinimumSize = new System.Drawing.Size(83, 96);
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.MinimumSize = new System.Drawing.Size(58, 58);
             this.Name = "FormSkin";
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Load += new System.EventHandler(this.FormSkin_Load);
@@ -376,6 +384,32 @@ namespace GenieClient
                 if (_CloseWindowToolStripMenuItem != null)
                 {
                     _CloseWindowToolStripMenuItem.Click += CloseWindowToolStripMenuItem_Click;
+                }
+            }
+        }
+
+        private ToolStripMenuItem _AlwaysOnTopToolStripMenuItem;
+
+        private ToolStripMenuItem AlwaysOnTopToolStripMenuItem
+        {
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            get
+            {
+                return _AlwaysOnTopToolStripMenuItem;
+            }
+
+            [MethodImpl(MethodImplOptions.Synchronized)]
+            set
+            {
+                if (_AlwaysOnTopToolStripMenuItem != null)
+                {
+                    _AlwaysOnTopToolStripMenuItem.Click -= AlwaysOnTopToolStripMenuItem_Click;
+                }
+
+                _AlwaysOnTopToolStripMenuItem = value;
+                if (_AlwaysOnTopToolStripMenuItem != null)
+                {
+                    _AlwaysOnTopToolStripMenuItem.Click += AlwaysOnTopToolStripMenuItem_Click;
                 }
             }
         }

@@ -17,7 +17,7 @@ public bool AcquireWriterLock()
                 {
                     return false;
                 }
-                return m_oRWLock.TryEnterWriteLock(500);
+                return m_oRWLock.TryEnterWriteLock(0);
             }
             catch 
             {
@@ -30,7 +30,7 @@ public bool AcquireWriterLock()
             try
             {
                 if (m_oRWLock.IsWriteLockHeld) return false;
-                return m_oRWLock.TryEnterReadLock(500);
+                return m_oRWLock.TryEnterReadLock(100);
             }
             catch 
             {

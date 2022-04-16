@@ -17,7 +17,7 @@ namespace GenieClient.Genie.Collections
                     return false;
                 }
                 
-                return m_RWLock.TryEnterWriteLock(500);
+                return m_RWLock.TryEnterWriteLock(0);
             }
             catch 
             {
@@ -30,7 +30,7 @@ namespace GenieClient.Genie.Collections
             try
             {
                 if (m_RWLock.IsWriteLockHeld) return false;
-                return m_RWLock.TryEnterReadLock(500);
+                return m_RWLock.TryEnterReadLock(100);
             }
             catch 
             {

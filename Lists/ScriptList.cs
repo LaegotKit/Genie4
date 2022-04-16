@@ -16,7 +16,7 @@ namespace GenieClient.Genie
                 {
                     return false;
                 }
-                return m_oRWLock.TryEnterWriteLock(500);
+                return m_oRWLock.TryEnterWriteLock(0);
             }
             catch 
             {
@@ -32,7 +32,7 @@ namespace GenieClient.Genie
                 {
                     return false;
                 }
-                return m_oRWLock.TryEnterReadLock(500);
+                return m_oRWLock.TryEnterReadLock(100);
             }
             catch 
             {

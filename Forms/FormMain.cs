@@ -376,6 +376,8 @@ namespace GenieClient
                     _m_oCommand.EventRemoveWindow -= Command_EventRemoveWindow;
                     _m_oCommand.EventCloseWindow -= Command_EventCloseWindow;
                     _m_oCommand.EventFlashWindow -= Command_FlashWindow;
+                    _m_oCommand.EventDockWindow -= Command_EventDockWindow;
+                    _m_oCommand.EventScrollbarWindow -= Command_EventScrollbarWindow;
                     _m_oCommand.EventMapperCommand -= Command_EventMapperCommand;
                     _m_oCommand.EventLoadProfile -= Command_LoadProfile;
                     _m_oCommand.EventSaveProfile -= Command_SaveProfile;
@@ -426,6 +428,8 @@ namespace GenieClient
                     _m_oCommand.EventRemoveWindow += Command_EventRemoveWindow;
                     _m_oCommand.EventCloseWindow += Command_EventCloseWindow;
                     _m_oCommand.EventFlashWindow += Command_FlashWindow;
+                    _m_oCommand.EventDockWindow += Command_EventDockWindow;
+                    _m_oCommand.EventScrollbarWindow += Command_EventScrollbarWindow;
                     _m_oCommand.EventMapperCommand += Command_EventMapperCommand;
                     _m_oCommand.EventLoadProfile += Command_LoadProfile;
                     _m_oCommand.EventSaveProfile += Command_SaveProfile;
@@ -7101,6 +7105,7 @@ namespace GenieClient
 
             if (sName != "Game" && sName != "Main")
             {
+                string TitleHolder = null;
                 var oEnumerator = m_oFormList.GetEnumerator();
                 while (oEnumerator.MoveNext())
                 {
@@ -7110,7 +7115,7 @@ namespace GenieClient
                         if (!sHeight.HasValue) { sHeight = ((FormSkin)oEnumerator.Current).Height; }
                         if (!sTop.HasValue) { sTop = ((FormSkin)oEnumerator.Current).Top; }
                         if (!sLeft.HasValue) { sLeft = ((FormSkin)oEnumerator.Current).Left; }
-
+                        TitleHolder = ((FormSkin)oEnumerator.Current).Title.ToString();
                         ((FormSkin)oEnumerator.Current).Hide();
                     }
                 }
@@ -7123,6 +7128,7 @@ namespace GenieClient
                 if (!Information.IsNothing(fo))
                 {
                     fo.Visible = true;
+                    if (TitleHolder != null) fo.Title = TitleHolder;
                 }
                 m_IsChangingLayout = false;
                 return;
@@ -7181,7 +7187,96 @@ namespace GenieClient
             }
         }
 
+        private void Command_EventDockWindow(string sName)
+        {
+            m_IsChangingLayout = true;
+            FormSkin oForm = null;
+            var oEnumerator = m_oFormList.GetEnumerator();
+            while (oEnumerator.MoveNext())
+            {
+                if ((((FormSkin)oEnumerator.Current).ID ?? "") == (sName.ToLower() ?? ""))
+                {
+                    oForm = (FormSkin)oEnumerator.Current;
+                    break;
+                }
+            }
 
+            if (!Information.IsNothing(oForm))
+            {
+                if (oForm.MdiParent != null)
+                {
+                    oForm.Tag = "UNDOCKED";
+                    AddText(oForm.Tag.ToString() + " " + sName + " " + System.Environment.NewLine);
+                    oForm._MdiParent = oForm.MdiParent;
+                    oForm.MdiParent = null;
+                    oForm.Title += " " + oForm._MdiParent.Text.ToString();
+                }
+                else
+                {
+                    oForm.Tag = "DOCKED";
+                    AddText(oForm.Tag.ToString() + " " + sName + " " + System.Environment.NewLine);
+                    oForm.Title = sName;
+                    oForm.MdiParent = oForm._MdiParent;
+                    int iWidth = m_oConfig.GetValue("Genie/Windows/Window" + oForm.TabIndex.ToString(), "Width", 100);
+                    int iHeight = m_oConfig.GetValue("Genie/Windows/Window" + oForm.TabIndex.ToString(), "Height", 100);
+                    int iTop = m_oConfig.GetValue("Genie/Windows/Window" + oForm.TabIndex.ToString(), "Top", 0);
+                    int iLeft = m_oConfig.GetValue("Genie/Windows/Window" + oForm.TabIndex.ToString(), "Left", 0);
+                    oForm.Hide();
+
+                    var fo = SafeCreateOutputForm(Conversions.ToString(sName.ToLower()), Conversions.ToString(sName), null, iWidth, iHeight, iTop, iLeft, true, null, "", true);
+                    if (!Information.IsNothing(fo))
+                    {
+                        fo.Visible = true;
+                    }
+
+                }
+
+            }
+            else if (sName == "Game") // This is the Main text output window
+            {
+                if (m_oOutputMain.MdiParent != null)
+                {
+                    m_oOutputMain.Tag = "UNDOCKED";
+                    AddText(m_oOutputMain.Tag.ToString() + " " + sName + " " + System.Environment.NewLine);
+                    m_oOutputMain._MdiParent = m_oOutputMain.MdiParent;
+                    m_oOutputMain.MdiParent = null;
+                    m_oOutputMain.Title += " " + m_oOutputMain._MdiParent.Text.ToString();
+                }
+                else
+                {
+                    m_oOutputMain.Tag = "DOCKED";
+                    AddText(m_oOutputMain.Tag.ToString() + " " + sName + " " + System.Environment.NewLine);
+                    m_oOutputMain.Title = sName;
+                    m_oOutputMain.MdiParent = m_oOutputMain._MdiParent;
+                    m_oOutputMain.Width = m_oConfig.GetValue("Genie/Windows/Game", "Width", m_oOutputMain.Width);
+                    m_oOutputMain.Height = m_oConfig.GetValue("Genie/Windows/Game", "Height", m_oOutputMain.Height);
+                    m_oOutputMain.Top = m_oConfig.GetValue("Genie/Windows/Game", "Top", m_oOutputMain.Top);
+                    m_oOutputMain.Left = m_oConfig.GetValue("Genie/Windows/Game", "Left", m_oOutputMain.Left);
+                }
+            }
+            m_IsChangingLayout = false;
+        }
+
+        private void Command_EventScrollbarWindow(string sName)
+        {
+            FormSkin oForm = null;
+            var oEnumerator = m_oFormList.GetEnumerator();
+            while (oEnumerator.MoveNext())
+            {
+                oForm = (FormSkin)oEnumerator.Current;
+                if (oForm.RichTextBoxOutput.ScrollBars == RichTextBoxScrollBars.ForcedVertical)
+                    oForm.RichTextBoxOutput.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
+                else
+                    oForm.RichTextBoxOutput.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
+                oForm.Invalidate();
+            }
+            if (m_oOutputMain.RichTextBoxOutput.ScrollBars == RichTextBoxScrollBars.ForcedVertical)
+                m_oOutputMain.RichTextBoxOutput.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.None;
+            else
+                m_oOutputMain.RichTextBoxOutput.ScrollBars = System.Windows.Forms.RichTextBoxScrollBars.ForcedVertical;
+            m_oOutputMain.Invalidate();
+
+        }
         private void Command_EventRemoveWindow(string sName)
         {
             FormSkin oForm = null;

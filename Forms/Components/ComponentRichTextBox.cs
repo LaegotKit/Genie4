@@ -132,6 +132,7 @@ namespace GenieClient
         private RichTextBox m_oRichTextBuffer = new RichTextBox();
         private Font m_MonoFont = new Font("Courier New", 9, FontStyle.Regular);
         private bool m_bTimeStamp = false;
+        private bool m_bAlwaysOnTop = false;
         private bool m_bNameListOnly = false;
         private int m_iMaxBufferSize = 500000;
         private bool m_bIsMainWindow = false;
@@ -172,6 +173,18 @@ namespace GenieClient
             set
             {
                 m_bTimeStamp = value;
+            }
+        }
+        public bool AlwaysOnTop
+        {
+            get
+            {
+                return m_bAlwaysOnTop;
+            }
+
+            set
+            {
+                m_bAlwaysOnTop = value;
             }
         }
 

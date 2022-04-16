@@ -44,6 +44,9 @@ namespace GenieClient
         private Bitmap oBottomLeft;
         private Bitmap oBottomRight;
 
+        public Form _MdiParent;
+
+
         // int windowCloseX, windowCloseY, windowCloseWidth, windowCloseHeight; 
 
         private Font oTitleFont = new Font("Microsoft Sans Serif", 8.25F, FontStyle.Regular, GraphicsUnit.Point, Conversions.ToByte(0));
@@ -208,6 +211,13 @@ namespace GenieClient
                         Win32Utility.WINDOWPOSINFO pos = (Win32Utility.WINDOWPOSINFO)m.GetLParam(typeof(Win32Utility.WINDOWPOSINFO));
                         {
                             var withBlock = (FormMain)MdiParent;
+                            if (withBlock == null ) 
+                                {
+//                                withBlock = (FormMain)_MdiParent;
+                                Invalidate();
+                                break;
+                                }
+
                             if (withBlock.m_IsChangingLayout == false)
                             {
                                 bool bSnappedX = false;
@@ -655,6 +665,20 @@ namespace GenieClient
             }
         }
 
+        public bool AlwaysOnTop
+        {
+            get
+            {
+                return RichTextBoxOutput.AlwaysOnTop;
+            }
+
+            set
+            {
+                RichTextBoxOutput.AlwaysOnTop = value;
+                AlwaysOnTopToolStripMenuItem.Checked = value;
+            }
+        }
+
         public bool NameListOnly
         {
             get
@@ -699,12 +723,21 @@ namespace GenieClient
 
         private void MyKeyDown(KeyEventArgs e)
         {
-            ((FormMain)MdiParent).InputKeyDown(e);
+            if (((FormMain)MdiParent) != null)
+            {
+                ((FormMain)MdiParent).InputKeyDown(e);
+            }
+            else ((FormMain)_MdiParent).InputKeyDown(e);
+
         }
 
         private void MyKeyPress(KeyPressEventArgs e)
         {
-            ((FormMain)MdiParent).InputKeyPress(e);
+            if (((FormMain)MdiParent) != null)
+            {
+                ((FormMain)MdiParent).InputKeyPress(e);
+            }
+            else ((FormMain)_MdiParent).InputKeyPress(e);
         }
 
         public void ClearWindow()
@@ -726,13 +759,22 @@ namespace GenieClient
             {
                 return;
             }
-
-            if (((FormMain)MdiParent).bCloseAllDocument == false & m_bUnloadWindow == false)
+            if (((FormMain)MdiParent) != null)
+            {
+                if (((FormMain)MdiParent).bCloseAllDocument == false & m_bUnloadWindow == false)
+                {
+                    RichTextBoxOutput.Visible = false;
+                    Visible = false;
+                    e.Cancel = true;
+                }
+            }
+            else if (((FormMain)_MdiParent).bCloseAllDocument == false & m_bUnloadWindow == false)
             {
                 RichTextBoxOutput.Visible = false;
                 Visible = false;
                 e.Cancel = true;
             }
+
         }
 
         private void FormSkin_Enter(object sender, EventArgs e)
@@ -777,7 +819,6 @@ namespace GenieClient
         {
             TimeStamp = !TimeStamp;
         }
-
         private void NameListOnlyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             NameListOnly = !NameListOnly;
@@ -787,6 +828,17 @@ namespace GenieClient
         {
             RichTextBoxOutput.Visible = false;
             Visible = false;
+        }
+
+        private void AlwaysOnTopToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AlwaysOnTop = !AlwaysOnTop;
+            this.TopMost = AlwaysOnTop;
+            if (AlwaysOnTop == true)
+            {
+                this.ShowInTaskbar = false;
+            }
+            else this.ShowInTaskbar = true;
         }
 
         private void RichTextBoxOutput_LinkClicked(object sender, LinkClickedEventArgs e)

@@ -146,6 +146,14 @@ namespace GenieClient.Genie
 
         public delegate void EventPositionWindowEventHandler(string sWindow, int? sWidth, int? sHeight, int? sTop, int? sLeft);
 
+        public event EventDockWindowEventHandler EventDockWindow;
+
+        public delegate void EventDockWindowEventHandler(string sWindow);
+        
+        public event EventScrollbarWindowEventHandler EventScrollbarWindow;
+
+        public delegate void EventScrollbarWindowEventHandler(string sWindow);
+
         public event EventRemoveWindowEventHandler EventRemoveWindow;
 
         public delegate void EventRemoveWindowEventHandler(string sWindow);
@@ -2320,7 +2328,17 @@ namespace GenieClient.Genie
 
                                                     case "save":
                                                         {
-                                                            EventLoadLayout?.Invoke(oGlobals.ParseGlobalVars(ParseAllArgs(oArgs, 2)));
+                                                            EventSaveLayout?.Invoke(oGlobals.ParseGlobalVars(ParseAllArgs(oArgs, 2)));
+                                                            break;
+                                                        }
+                                                    case "dock":
+                                                        {
+                                                            EventDockWindow?.Invoke(oGlobals.ParseGlobalVars(ParseAllArgs(oArgs, 2)));
+                                                            break;
+                                                        }
+                                                    case "scrollbar":
+                                                        {
+                                                            EventScrollbarWindow?.Invoke(oGlobals.ParseGlobalVars(ParseAllArgs(oArgs, 2)));
                                                             break;
                                                         }
                                                 }
