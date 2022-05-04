@@ -1820,7 +1820,7 @@ namespace GenieClient
                             var argoDateEnd = DateTime.Now;
                             if (Utility.GetTimeDiffInMilliseconds(oTimerStart, argoDateEnd) > m_oGlobals.Config.iScriptTimeout)
                             {
-                                PrintText("[Script timeout in " + GetFileAndRow(oLine.iFileId, oLine.iFileRow) + ": Possible infinite loop.]");
+                                PrintText("[Script timeout in " + GetFileAndRow(oLine.iFileId, oLine.iFileRow) + ": No input was received in the timeout period. This may indicate an infinite loop or structural script error.]");
                                 PrintTrace();
                                 ScriptDone = true;
                                 ClearScript();
