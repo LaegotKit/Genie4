@@ -4188,7 +4188,7 @@ namespace GenieClient
 
         private void AddText(string sText, Color oColor, Color oBgColor, FormSkin oTargetWindow, bool bNoCache = true, bool bMono = false, bool bPrompt = false, bool bInput = false)
         {
-            bPrompt = false;
+           // bPrompt = false;
 
             if (IsDisposed)
             {
